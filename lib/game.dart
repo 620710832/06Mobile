@@ -1,59 +1,32 @@
 import 'dart:math';
-import 'dart:io';
-class Game {
-  int? answer;
-  int count = 0;
-  static const maxRandom = 100;
 
-  Game() {
-    var r = Random();
-    answer = r.nextInt(maxRandom) + 1;
+class Game {
+  int? _answer;
+  int _guessCount = 0;
+  static List<int> myList = [];
+  Game({int maxRandom: 100}) {
+    var r = Random(maxRandom);
+    _answer = r.nextInt(maxRandom)+1;
   }
+  int get guessCount {
+    return _guessCount;
+  }
+
   int doGuess(int num) {
-    if (num > answer!) {
-      count++;
-      print('║ ➜ $num is TOO HIGH! ▲');
-      print('╟────────────────────────────────────────');
-      print(answer);
+    _guessCount++;
+    if (num > _answer!) {
       return 1;
-    }
-    else if (num < answer!) {
-      count++;
-      print('║ ➜ $num is TOO LOW! ▼');
-      print('╟────────────────────────────────────────');
-      print(answer);
+    } else if (num < _answer!) {
       return -1;
     } else {
-      count++;
-      print('║ ➜ $num is CORRECT ❤, total guesses: $count');
-      print('╟────────────────────────────────────────');
+      myList.add(guessCount);
       return 0;
     }
   }
-
-  int doCount() {
-    return count;
+  static void show(){
+    print('U have played ${myList.length} game(s)');
+    for (var i = 0; i < myList.length; i++) {
+      print('➜ Game #${i+1}  ${myList[i]} guess(es)');
+    }
   }
-
-}playgame() {
-  const maxRandom = 100;
-  var game = Game();
-  var isCorrect = false;
-  do {
-    stdout.write('║ Guess the number between 1 and $maxRandom: ');
-    var input = stdin.readLineSync();
-    var guess = int.tryParse(input!);
-    if (guess == null) {
-      continue;
-    }
-    var play = game.doGuess(guess);
-    play;
-    game.doCount();
-    if (play == 0) {
-      isCorrect = true;
-    }
-  } while (!isCorrect);
-
-  print('║                 THE END                ');
-  print('╚════════════════════════════════════════');
 }
