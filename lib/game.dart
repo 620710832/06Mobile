@@ -1,12 +1,14 @@
 import 'dart:math';
 
 class Game {
+  static const defaultMaxRandom = 100;
   int? _answer;
   int _guessCount = 0;
   static List<int> myList = [];
-  Game({int maxRandom: 100}) {
-    var r = Random(maxRandom);
+  Game({int maxRandom = defaultMaxRandom}) {
+    var r = Random();
     _answer = r.nextInt(maxRandom)+1;
+    print(_answer);
   }
   int get guessCount {
     return _guessCount;
